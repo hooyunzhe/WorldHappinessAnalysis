@@ -1,6 +1,5 @@
-def readFile(path):
+def readFileToData(data, path):
     names = []
-    data = []
     year = getYear(path)
     with open(path, mode='r') as csvFile:
         for i, line in enumerate(csvFile):
@@ -9,7 +8,10 @@ def readFile(path):
             else:
                 row = {}
                 for j, val in enumerate(line.split(",")):
-                    row[names[j]] = val
+                    try:
+                        row[names[j]] = val
+                    except IndexError:
+                        print(line)
                 row["Year"] = year
                 data.append(row)
     return data
@@ -23,5 +25,15 @@ def allRegions(data):
         regions.add(row["Region"])
     return list(regions)
 
-print(readFile('Assets/2016.csv'))
+def allCountriesForRegion(data, region):
+    countries = set()
+    filteredData = filter(lambda row: row["Region"] == region, data)
+    for row in filteredData:
+        countries.add(row["Country"])
+    return list(countries)
+
+data = []
+readFileToData(data, 'Assets/2015.csv')
+readFileToData(data, 'Assets/2016.csv')
+print(allCountriesForRegion(data, "Southeastern Asia"))
 #print(getYear('Assets/2015.csv'))
