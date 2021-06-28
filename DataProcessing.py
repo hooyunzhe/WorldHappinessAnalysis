@@ -1,6 +1,7 @@
+YEAR = "Year"
 def readFileToData(data, path):
     names = []
-    year = getYear(path)
+    year = getYearFromFileName(path)
     with open(path, mode='r') as csvFile:
         for i, line in enumerate(csvFile):
             if i == 0:
@@ -16,7 +17,7 @@ def readFileToData(data, path):
                 data.append(row)
     return data
 
-def getYear(path):
+def getYearFromFileName(path):
     return path.replace("/", ".").replace("\\", ".").split(".")[-2]
 
 def allRegions(data):
@@ -32,8 +33,27 @@ def allCountriesForRegion(data, region):
         countries.add(row["Country"])
     return list(countries)
 
+def allYears(data):
+    year = set()
+    for i in data:
+        year.add(i[YEAR])
+    return year
+
+def allCols(data):
+    cols = set()
+    years = set()
+    for i in data:
+        if i[YEAR] not in years:
+            years.add(i[YEAR])
+            for collums in i.keys():
+                cols.add(collums)
+    cols.remove(YEAR)
+    return cols
+
 data = []
 readFileToData(data, 'Assets/2015.csv')
 readFileToData(data, 'Assets/2016.csv')
-print(allCountriesForRegion(data, "Southeastern Asia"))
+print(allCols(data))
+#list of dictionary [{Country: "", etc}]
+#print(allCountriesForRegion(data, "Southeastern Asia"))
 #print(getYear('Assets/2015.csv'))
