@@ -12,7 +12,7 @@ def readFileToData(data, path):
                 row = {}
                 for j, val in enumerate(line.split(",")):
                     try:
-                        row[names[j]] = val
+                        row[names[j].strip()] = val.strip()
                     except IndexError:
                         print(line)
                 row["Year"] = year
@@ -35,6 +35,9 @@ def allCountriesForRegion(data, region):
         countries.add(row[COUNTRY])
     return list(countries)
 
+def allRowsByYearRange(data, startYear, endYear):
+    return (list(filter(lambda x: int(x[YEAR]) in range(startYear, endYear+1), data)))
+
 def allYears(data):
     year = set()
     for i in data:
@@ -55,8 +58,11 @@ def allCols(data):
 def allRowsForCountry(data, country):
     return (list(filter(lambda x: x[COUNTRY] == country, data)))
 
-#data = []
-#readFileToData(data, 'Assets/2015.csv')
+"""data = []
+for i in range(2008, 2022):
+    readFileToData(data, "Assets/" + str(i) + ".csv")
+print(allRowsByYearRange(data, 2008, 2009))"""
+
 #readFileToData(data, 'Assets/2016.csv')
 #print(allRowsForCountry(data, "Malaysia"))
 #list of dictionary [{Country: "", etc}]
