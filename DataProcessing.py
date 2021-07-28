@@ -1,5 +1,6 @@
 YEAR = "Year"
 COUNTRY = "Country"
+REGION = "Region"
 
 def readFileToData(data, path):
     names = []
@@ -57,6 +58,9 @@ def allCols(data):
 
 def allRowsForCountry(data, country):
     return (list(filter(lambda x: x[COUNTRY] == country, data)))
+
+def allRowsForRegion(data, region):
+    return (list(filter(lambda x: x[REGION] == region, data)))
 
 """data = []
 for i in range(2008, 2022):
